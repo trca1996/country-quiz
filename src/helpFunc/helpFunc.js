@@ -2,12 +2,16 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { CircularProgress } from "@material-ui/core";
 
-export const showIcon = (answerId, answered) => {
+export const showIcon = (answerId, answered, isCorrect) => {
   if (answerId && answered === "correct") {
     return <CheckCircleOutlineIcon />;
   }
   if (answerId && answered === "wrong") {
     return <HighlightOffIcon />;
+  }
+
+  if (answered === "wrong" && isCorrect === true) {
+    return <CheckCircleOutlineIcon />;
   }
 };
 

@@ -38,7 +38,17 @@ const questionSlice = createSlice({
     [getRandomCountries.fulfilled]: (state, action) => {
       state.randomCountries = action.payload;
       state.correct = action.payload[0].name;
-      state.answers = _.shuffle(action.payload).map((item) => item.name);
+
+      const setAnswersObjects = Object.values(action.payload).map(
+        (country, i) => {
+          return {
+            countryName: country.name,
+            isCorrect: i === 0 ? true : false,
+          };
+        }
+      );
+
+      state.answers = _.shuffle(setAnswersObjects);
     },
   },
 });

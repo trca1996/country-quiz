@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { CircularProgress } from "@material-ui/core";
 import { showIcon, question } from "../helpFunc/helpFunc";
+import Image from "../components/Image";
 
 const Question = () => {
   const countries = useSelector((state) => state.question.randomCountries);
@@ -11,7 +12,7 @@ const Question = () => {
 
   const [questionType, setQuestionType] = useState("flag"); // flag || capital
 
-  const [answerA, setAnswerA] = useState(false); // 'correct' 'wrong' 'disabled' 'notAnswered'
+  const [answerA, setAnswerA] = useState(false);
   const [answerB, setAnswerB] = useState(false);
   const [answerC, setAnswerC] = useState(false);
   const [answerD, setAnswerD] = useState(false);
@@ -31,66 +32,88 @@ const Question = () => {
     }
   };
 
-  console.log(answerA, answerB, answerC, answerD);
-
   return (
     <Container>
       <h1>COUNTRY QUIZ</h1>
       <Card>
-        <img src="/img/question.svg" alt="" />
+        <Image src={"/img/question.svg"} />
 
         <Ask>{question(questionType, countries)}</Ask>
 
         <Button
           className="button"
-          value={allAnswers && allAnswers[0]}
+          value={allAnswers && allAnswers[0].countryName}
           onClick={(e) => handleClick(e, setAnswerA)}
+          stl={answerA && answered} // return 'correct' : 'wrong' : false
+          showCorrect={answered && allAnswers ? allAnswers[0].isCorrect : false}
         >
           <p>A</p>
           <h4>
-            {allAnswers ? allAnswers[0] : <CircularProgress size="20px" />}
+            {allAnswers ? (
+              allAnswers[0].countryName
+            ) : (
+              <CircularProgress size="20px" />
+            )}
           </h4>
 
-          {showIcon(answerA, answered)}
+          {allAnswers && showIcon(answerA, answered, allAnswers[0].isCorrect)}
         </Button>
 
         <Button
           className="button"
-          value={allAnswers && allAnswers[1]}
+          value={allAnswers && allAnswers[1].countryName}
           onClick={(e) => handleClick(e, setAnswerB)}
+          stl={answerB && answered}
+          showCorrect={answered && allAnswers ? allAnswers[1].isCorrect : false}
         >
           <p>B</p>
           <h4>
-            {allAnswers ? allAnswers[1] : <CircularProgress size="20px" />}
+            {allAnswers ? (
+              allAnswers[1].countryName
+            ) : (
+              <CircularProgress size="20px" />
+            )}
           </h4>
 
-          {showIcon(answerB, answered)}
+          {allAnswers && showIcon(answerB, answered, allAnswers[1].isCorrect)}
         </Button>
 
         <Button
           className="button"
-          value={allAnswers && allAnswers[2]}
+          value={allAnswers && allAnswers[2].countryName}
           onClick={(e) => handleClick(e, setAnswerC)}
+          stl={answerC && answered}
+          showCorrect={answered && allAnswers ? allAnswers[2].isCorrect : false}
         >
           <p>C</p>
           <h4>
-            {allAnswers ? allAnswers[2] : <CircularProgress size="20px" />}
+            {allAnswers ? (
+              allAnswers[2].countryName
+            ) : (
+              <CircularProgress size="20px" />
+            )}
           </h4>
 
-          {showIcon(answerC, answered)}
+          {allAnswers && showIcon(answerC, answered, allAnswers[2].isCorrect)}
         </Button>
 
         <Button
           className="button"
-          value={allAnswers && allAnswers[3]}
+          value={allAnswers && allAnswers[3].countryName}
           onClick={(e) => handleClick(e, setAnswerD)}
+          stl={answerD && answered}
+          showCorrect={answered && allAnswers ? allAnswers[3].isCorrect : false}
         >
           <p>D</p>
           <h4>
-            {allAnswers ? allAnswers[3] : <CircularProgress size="20px" />}
+            {allAnswers ? (
+              allAnswers[3].countryName
+            ) : (
+              <CircularProgress size="20px" />
+            )}
           </h4>
 
-          {showIcon(answerD, answered)}
+          {allAnswers && showIcon(answerD, answered, allAnswers[3].isCorrect)}
         </Button>
       </Card>
     </Container>
@@ -148,14 +171,32 @@ const Button = styled.button`
   margin-bottom: 25px;
   cursor: pointer;
 
-  border: 2px solid rgba(96, 102, 208, 0.7);
-  color: #6066d0;
-  background-color: transparent;
+  border: 2px solid
+    ${({ stl, showCorrect }) => {
+      if (stl === "correct" || stl === "wrong" || showCorrect)
+        return "transparent";
+      if (stl === false) return "rgba(96,102,208,0.7)";
+    }};
+
+  color: ${({ stl, showCorrect }) => {
+    if (stl === "correct" || stl === "wrong" || showCorrect) return "#ffffff";
+    if (stl === false) return "#6066d0";
+  }};
+
+  background-color: ${({ stl, showCorrect }) => {
+    if (stl === "correct") return "#60BF88";
+    if (showCorrect) return "#60bf88";
+    if (stl === "wrong") return "#EA8282";
+    if (stl === false) return "transparent";
+  }};
 
   &:hover {
     border: 2px solid transparent;
     color: #ffffff;
-    background-color: #f9a826;
+    background-color: ${({ stl, showCorrect }) => {
+      if (showCorrect) return "#60bf88";
+      if (stl === false) return "#f9a826";
+    }};
   }
 
   p {
@@ -168,11 +209,6 @@ const Button = styled.button`
     font-weight: 500;
     font-size: 18px;
   }
-
-  /* span {
-    margin-left: auto;
-    font-size: 20px;
-  } */
 
   .MuiSvgIcon-root {
     margin-left: auto !important;
