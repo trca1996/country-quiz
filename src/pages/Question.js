@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import showIcon from "../helpFunc/showIcon";
 import { CircularProgress } from "@material-ui/core";
+import { showIcon, question } from "../helpFunc/helpFunc";
 
 const Question = () => {
   const countries = useSelector((state) => state.question.randomCountries);
@@ -11,12 +11,27 @@ const Question = () => {
 
   const [questionType, setQuestionType] = useState("flag"); // flag || capital
 
-  const [answerA, setAnswerA] = useState(false);
-  const [answerB, setAnswerB] = useState(true);
+  const [answerA, setAnswerA] = useState(false); // 'correct' 'wrong' 'disabled' 'notAnswered'
+  const [answerB, setAnswerB] = useState(false);
   const [answerC, setAnswerC] = useState(false);
   const [answerD, setAnswerD] = useState(false);
 
-  const [answered, setAnswered] = useState(false);
+  const [answered, setAnswered] = useState("");
+
+  const handleClick = (e, setFunc) => {
+    if (answered) return;
+
+    if (e.target.closest("button").value === correctAnswer) {
+      setFunc(true);
+      setAnswered("correct");
+    }
+    if (e.target.closest("button").value !== correctAnswer) {
+      setFunc(true);
+      setAnswered("wrong");
+    }
+  };
+
+  console.log(answerA, answerB, answerC, answerD);
 
   return (
     <Container>
@@ -24,28 +39,12 @@ const Question = () => {
       <Card>
         <img src="/img/question.svg" alt="" />
 
-        <Ask>
-          {questionType === "capital" ? (
-            <h3>
-              {countries ? countries[0].capital : "loading ..."} is the capital
-              of
-            </h3>
-          ) : (
-            <>
-              <img
-                src={countries ? countries[0].flag : "/img/background.png"}
-                alt=""
-              />
-              <h3>Which country does this flag belong to?</h3>
-            </>
-          )}
-        </Ask>
+        <Ask>{question(questionType, countries)}</Ask>
 
         <Button
           className="button"
           value={allAnswers && allAnswers[0]}
-          onClick={(e) => console.log(e.target.closest("button").value)}
-          correct={answerA}
+          onClick={(e) => handleClick(e, setAnswerA)}
         >
           <p>A</p>
           <h4>
@@ -58,8 +57,7 @@ const Question = () => {
         <Button
           className="button"
           value={allAnswers && allAnswers[1]}
-          onClick={(e) => console.log(e.target.closest("button").value)}
-          correct={answerB}
+          onClick={(e) => handleClick(e, setAnswerB)}
         >
           <p>B</p>
           <h4>
@@ -72,7 +70,7 @@ const Question = () => {
         <Button
           className="button"
           value={allAnswers && allAnswers[2]}
-          correct={answerC}
+          onClick={(e) => handleClick(e, setAnswerC)}
         >
           <p>C</p>
           <h4>
@@ -85,7 +83,7 @@ const Question = () => {
         <Button
           className="button"
           value={allAnswers && allAnswers[3]}
-          correct={answerD}
+          onClick={(e) => handleClick(e, setAnswerD)}
         >
           <p>D</p>
           <h4>
@@ -171,9 +169,13 @@ const Button = styled.button`
     font-size: 18px;
   }
 
-  span {
+  /* span {
     margin-left: auto;
     font-size: 20px;
+  } */
+
+  .MuiSvgIcon-root {
+    margin-left: auto !important;
   }
 `;
 
