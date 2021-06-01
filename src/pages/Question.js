@@ -1,16 +1,25 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { CircularProgress } from "@material-ui/core";
 import { showIcon, question } from "../helpFunc/helpFunc";
 import Image from "../components/Image";
+import {
+  getRandomCountries,
+  setAnswerCounter,
+} from "../features/questionSlice";
+import { useHistory } from "react-router-dom";
 
 const Question = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const countries = useSelector((state) => state.question.randomCountries);
   const correctAnswer = useSelector((state) => state.question.correct);
   const allAnswers = useSelector((state) => state.question.answers);
 
   const [questionType, setQuestionType] = useState("flag"); // flag || capital
+
+  console.log(questionType);
 
   const [answerA, setAnswerA] = useState(false);
   const [answerB, setAnswerB] = useState(false);
@@ -19,17 +28,43 @@ const Question = () => {
 
   const [answered, setAnswered] = useState("");
 
-  const handleClick = (e, setFunc) => {
-    if (answered) return;
+  const handleClick = useCallback(
+    (e, setFunc) => {
+      if (answered) return;
 
-    if (e.target.closest("button").value === correctAnswer) {
-      setFunc(true);
-      setAnswered("correct");
+      if (e.target.closest("button").value === correctAnswer) {
+        setFunc(true);
+        setAnswered("correct");
+      }
+      if (e.target.closest("button").value !== correctAnswer) {
+        setFunc(true);
+        setAnswered("wrong");
+      }
+    },
+    [answered, correctAnswer]
+  );
+
+  const initValues = () => {
+    setAnswerA(false);
+    setAnswerB(false);
+    setAnswerC(false);
+    setAnswerD(false);
+    setAnswered("");
+  };
+
+  const handleNextClick = () => {
+    // Check for correct answer
+    if (answered === "correct") {
+      dispatch(getRandomCountries());
+      dispatch(setAnswerCounter());
+      initValues();
     }
-    if (e.target.closest("button").value !== correctAnswer) {
-      setFunc(true);
-      setAnswered("wrong");
+
+    if (answered === "wrong") {
+      history.push("/results");
     }
+
+    setQuestionType((state) => (state === "flag" ? "capital" : "flag"));
   };
 
   return (
@@ -115,12 +150,22 @@ const Question = () => {
 
           {allAnswers && showIcon(answerD, answered, allAnswers[3].isCorrect)}
         </Button>
+
+        <NextButton
+          onClick={handleNextClick}
+          disabled={answered === "" ? true : false}
+          show={answered}
+        >
+          Next
+        </NextButton>
       </Card>
     </Container>
   );
 };
 
 const Container = styled.div`
+  transition: all 0.3s linear;
+
   h1 {
     font-weight: 700;
     font-size: 36px;
@@ -157,6 +202,7 @@ const Ask = styled.div`
     top: 0;
     height: 54px;
     width: 84px;
+    object-fit: cover;
     border-radius: 4px;
     filter: drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.1));
   }
@@ -208,11 +254,27 @@ const Button = styled.button`
     margin-left: 46px;
     font-weight: 500;
     font-size: 18px;
+    text-align: start;
   }
 
   .MuiSvgIcon-root {
     margin-left: auto !important;
   }
+`;
+
+const NextButton = styled.button`
+  align-self: flex-end;
+  color: #ffffff;
+  background-color: #f9a826;
+  outline: none;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0px 2px 4px rgba(252, 168, 47, 0.4);
+  padding: 15px 37px;
+  transition: all 0.3s linear;
+  cursor: pointer;
+
+  opacity: ${({ show }) => (show === "" ? "0" : "1")};
 `;
 
 export default Question;

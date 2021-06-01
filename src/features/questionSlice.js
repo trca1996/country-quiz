@@ -28,12 +28,20 @@ const initialState = {
   randomCountries: null,
   correct: null,
   answers: null,
+  answerCounter: 0,
 };
 
 const questionSlice = createSlice({
   name: "question",
   initialState,
-  reducers: {},
+  reducers: {
+    setAnswerCounter: (state, action) => {
+      state.answerCounter = state.answerCounter + 1;
+    },
+    resetAnswerCounter: (state, action) => {
+      state.answerCounter = 0;
+    },
+  },
   extraReducers: {
     [getRandomCountries.fulfilled]: (state, action) => {
       state.randomCountries = action.payload;
@@ -53,5 +61,5 @@ const questionSlice = createSlice({
   },
 });
 
-// export const {} = questionSlice.actions;
+export const { setAnswerCounter, resetAnswerCounter } = questionSlice.actions;
 export default questionSlice.reducer;

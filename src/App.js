@@ -4,6 +4,7 @@ import Question from "./pages/Question";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getRandomCountries } from "./features/questionSlice";
+import Results from "./pages/Results";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function App() {
             <Question />
           </Route>
           <Route exact path="/results">
-            <h1>This is the results page</h1>
+            <Results />
           </Route>
         </Switch>
       </Router>
