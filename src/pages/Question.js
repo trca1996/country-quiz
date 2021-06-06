@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { CircularProgress } from "@material-ui/core";
-import { showIcon, question } from "../helpFunc/helpFunc";
+import { question } from "../helpFunc/helpFunc";
 import Image from "../components/Image";
 import {
   getRandomCountries,
   setAnswerCounter,
 } from "../features/questionSlice";
 import { useHistory } from "react-router-dom";
+import Button from "../components/Button";
 
 const Question = () => {
   const history = useHistory();
@@ -74,80 +74,37 @@ const Question = () => {
         <Ask>{question(questionType, countries)}</Ask>
 
         <Button
-          className="button"
-          value={allAnswers && allAnswers[0].countryName}
-          onClick={(e) => handleClick(e, setAnswerA)}
-          stl={answerA && answered} // return 'correct' : 'wrong' : false
-          showCorrect={answered && allAnswers ? allAnswers[0].isCorrect : false}
-        >
-          <p>A</p>
-          <h4>
-            {allAnswers ? (
-              allAnswers[0].countryName
-            ) : (
-              <CircularProgress size="20px" />
-            )}
-          </h4>
-
-          {allAnswers && showIcon(answerA, answered, allAnswers[0].isCorrect)}
-        </Button>
-
+          id={0}
+          allAnswers={allAnswers}
+          answerId={answerA}
+          setAnswerId={setAnswerA}
+          answered={answered}
+          handleClick={handleClick}
+        />
         <Button
-          className="button"
-          value={allAnswers && allAnswers[1].countryName}
-          onClick={(e) => handleClick(e, setAnswerB)}
-          stl={answerB && answered}
-          showCorrect={answered && allAnswers ? allAnswers[1].isCorrect : false}
-        >
-          <p>B</p>
-          <h4>
-            {allAnswers ? (
-              allAnswers[1].countryName
-            ) : (
-              <CircularProgress size="20px" />
-            )}
-          </h4>
-
-          {allAnswers && showIcon(answerB, answered, allAnswers[1].isCorrect)}
-        </Button>
-
+          id={1}
+          allAnswers={allAnswers}
+          answerId={answerB}
+          setAnswerId={setAnswerB}
+          answered={answered}
+          handleClick={handleClick}
+        />
         <Button
-          className="button"
-          value={allAnswers && allAnswers[2].countryName}
-          onClick={(e) => handleClick(e, setAnswerC)}
-          stl={answerC && answered}
-          showCorrect={answered && allAnswers ? allAnswers[2].isCorrect : false}
-        >
-          <p>C</p>
-          <h4>
-            {allAnswers ? (
-              allAnswers[2].countryName
-            ) : (
-              <CircularProgress size="20px" />
-            )}
-          </h4>
-
-          {allAnswers && showIcon(answerC, answered, allAnswers[2].isCorrect)}
-        </Button>
-
+          id={2}
+          allAnswers={allAnswers}
+          answerId={answerC}
+          setAnswerId={setAnswerC}
+          answered={answered}
+          handleClick={handleClick}
+        />
         <Button
-          className="button"
-          value={allAnswers && allAnswers[3].countryName}
-          onClick={(e) => handleClick(e, setAnswerD)}
-          stl={answerD && answered}
-          showCorrect={answered && allAnswers ? allAnswers[3].isCorrect : false}
-        >
-          <p>D</p>
-          <h4>
-            {allAnswers ? (
-              allAnswers[3].countryName
-            ) : (
-              <CircularProgress size="20px" />
-            )}
-          </h4>
-
-          {allAnswers && showIcon(answerD, answered, allAnswers[3].isCorrect)}
-        </Button>
+          id={3}
+          allAnswers={allAnswers}
+          answerId={answerD}
+          setAnswerId={setAnswerD}
+          answered={answered}
+          handleClick={handleClick}
+        />
 
         <NextButton
           onClick={handleNextClick}
@@ -206,59 +163,59 @@ const Ask = styled.div`
   }
 `;
 
-const Button = styled.button`
-  display: flex;
-  padding: 10px 20px;
-  align-items: center;
-  border-radius: 12px;
-  outline: none;
-  margin-bottom: 25px;
-  cursor: pointer;
+// const Button = styled.button`
+//   display: flex;
+//   padding: 10px 20px;
+//   align-items: center;
+//   border-radius: 12px;
+//   outline: none;
+//   margin-bottom: 25px;
+//   cursor: pointer;
 
-  border: 2px solid
-    ${({ stl, showCorrect }) => {
-      if (stl === "correct" || stl === "wrong" || showCorrect)
-        return "transparent";
-      if (stl === false) return "rgba(96,102,208,0.7)";
-    }};
+//   border: 2px solid
+//     ${({ stl, showCorrect }) => {
+//       if (stl === "correct" || stl === "wrong" || showCorrect)
+//         return "transparent";
+//       if (stl === false) return "rgba(96,102,208,0.7)";
+//     }};
 
-  color: ${({ stl, showCorrect }) => {
-    if (stl === "correct" || stl === "wrong" || showCorrect) return "#ffffff";
-    if (stl === false) return "#6066d0";
-  }};
+//   color: ${({ stl, showCorrect }) => {
+//     if (stl === "correct" || stl === "wrong" || showCorrect) return "#ffffff";
+//     if (stl === false) return "#6066d0";
+//   }};
 
-  background-color: ${({ stl, showCorrect }) => {
-    if (stl === "correct") return "#60BF88";
-    if (showCorrect) return "#60bf88";
-    if (stl === "wrong") return "#EA8282";
-    if (stl === false) return "transparent";
-  }};
+//   background-color: ${({ stl, showCorrect }) => {
+//     if (stl === "correct") return "#60BF88";
+//     if (showCorrect) return "#60bf88";
+//     if (stl === "wrong") return "#EA8282";
+//     if (stl === false) return "transparent";
+//   }};
 
-  &:hover {
-    border: 2px solid transparent;
-    color: #ffffff;
-    background-color: ${({ stl, showCorrect }) => {
-      if (showCorrect) return "#60bf88";
-      if (stl === false) return "#f9a826";
-    }};
-  }
+//   &:hover {
+//     border: 2px solid transparent;
+//     color: #ffffff;
+//     background-color: ${({ stl, showCorrect }) => {
+//       if (showCorrect) return "#60bf88";
+//       if (stl === false) return "#f9a826";
+//     }};
+//   }
 
-  p {
-    font-weight: 500;
-    font-size: 24px;
-  }
+//   p {
+//     font-weight: 500;
+//     font-size: 24px;
+//   }
 
-  h4 {
-    margin-left: 46px;
-    font-weight: 500;
-    font-size: 18px;
-    text-align: start;
-  }
+//   h4 {
+//     margin-left: 46px;
+//     font-weight: 500;
+//     font-size: 18px;
+//     text-align: start;
+//   }
 
-  .MuiSvgIcon-root {
-    margin-left: auto !important;
-  }
-`;
+//   .MuiSvgIcon-root {
+//     margin-left: auto !important;
+//   }
+// `;
 
 const NextButton = styled.button`
   align-self: flex-end;
