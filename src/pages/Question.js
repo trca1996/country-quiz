@@ -19,8 +19,6 @@ const Question = () => {
 
   const [questionType, setQuestionType] = useState("flag"); // flag || capital
 
-  console.log(questionType);
-
   const [answerA, setAnswerA] = useState(false);
   const [answerB, setAnswerB] = useState(false);
   const [answerC, setAnswerC] = useState(false);
