@@ -3,14 +3,19 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Question from "./pages/Question";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getRandomCountries } from "./features/questionSlice";
+import { getAllCountries, getRandomCountries } from "./features/questionSlice";
 import Results from "./pages/Results";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getRandomCountries());
+    fetch("https://restcountries.eu/rest/v2/all?fields=name;capital;flag")
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(getAllCountries(data));
+        dispatch(getRandomCountries());
+      });
   }, [dispatch]);
 
   return (
