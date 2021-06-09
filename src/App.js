@@ -30,6 +30,9 @@ function App() {
           </Route>
         </Switch>
       </Router>
+      <CreatedText>
+        created by <span>trca1996</span> - devChallenges.io
+      </CreatedText>
     </Container>
   );
 }
@@ -46,4 +49,20 @@ const Container = styled.div`
   justify-content: center;
 `;
 
+const CreatedText = styled.p`
+  text-align: center;
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: auto;
+  margin-bottom: 10px;
+
+  position: absolute;
+  left: 10px;
+  top: 10px;
+
+  span {
+    text-decoration: underline;
+  }
+`;
 export default App;
