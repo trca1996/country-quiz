@@ -132,6 +132,8 @@ const Container = styled.div`
   }
 `;
 
+
+
 const Card = styled.div`
   position: relative;
   background-color: #ffffff;
@@ -153,10 +155,6 @@ const Card = styled.div`
   @media only screen and (max-width: 500px) {
     width: 100%;
     padding: 20px;
-
-    img{
-      display: none;
-    }
   }
 `;
 
