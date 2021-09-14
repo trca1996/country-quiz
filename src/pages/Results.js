@@ -47,6 +47,11 @@ const Container = styled.div`
     font-size: 36px;
     color: #f2f2f2;
   }
+
+  @media only screen and (max-width: 500px) {
+    padding:10px;
+    width: 100%;
+  }
 `;
 
 const Card = styled.div`
@@ -59,6 +64,11 @@ const Card = styled.div`
 
   align-items: center;
   width: 464px;
+
+  @media only screen and (max-width: 500px) {
+    padding:20px;
+    width: 100%;
+  }
 
   img {
     height: 128px;

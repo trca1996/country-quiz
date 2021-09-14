@@ -40,13 +40,15 @@ function App() {
 const Container = styled.div`
   height: 100%;
   width: 100%;
-  position: absolute;
+  /* position: absolute;
   top: 0;
-  left: 0;
+  left: 0; */
+  padding: 15px 0;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
 const CreatedText = styled.p`
@@ -54,12 +56,12 @@ const CreatedText = styled.p`
   font-family: "Montserrat";
   font-weight: 500;
   font-size: 14px;
-  margin-top: auto;
+  margin-top: 20px;
   margin-bottom: 10px;
 
-  position: absolute;
+  /* position: absolute;
   left: 10px;
-  top: 10px;
+  top: 10px; */
 
   span {
     text-decoration: underline;

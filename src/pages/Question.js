@@ -126,6 +126,10 @@ const Container = styled.div`
     font-size: 36px;
     color: #f2f2f2;
   }
+
+  @media only screen and (max-width: 500px) {
+    padding:10px;
+  }
 `;
 
 const Card = styled.div`
@@ -137,12 +141,22 @@ const Card = styled.div`
   flex-direction: column;
   width: 464px;
 
+  
   img {
     height: 162px;
     width: 162px;
     position: absolute;
     top: -100px;
     right: 0;
+  }
+
+  @media only screen and (max-width: 500px) {
+    width: 100%;
+    padding: 20px;
+
+    img{
+      display: none;
+    }
   }
 `;
 
