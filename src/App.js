@@ -10,7 +10,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("https://restcountries.eu/rest/v2/all?fields=name;capital;flag")
+    fetch("https://restcountries.com/v3/all?fields=name,flags,capital")
       .then((res) => res.json())
       .then((data) => {
         dispatch(getAllCountries(data));

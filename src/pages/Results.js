@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import styled from "styled-components";
 import Image from "../components/Image";
-import {
-  resetAnswerCounter,
-  getRandomCountries,
-} from "../features/questionSlice";
+import { getRandomCountries } from "../features/questionSlice";
 
 const Results = () => {
   const history = useHistory();
@@ -14,8 +11,6 @@ const Results = () => {
   const answerCounter = useSelector((state) => state.question.answerCounter);
 
   const handleClick = () => {
-    // reset Counter
-    dispatch(resetAnswerCounter());
     // get Random Countries for next quiz
     dispatch(getRandomCountries());
     // go back to / home route
@@ -49,7 +44,7 @@ const Container = styled.div`
   }
 
   @media only screen and (max-width: 500px) {
-    padding:10px;
+    padding: 10px;
     width: 100%;
   }
 `;
@@ -66,7 +61,7 @@ const Card = styled.div`
   width: 464px;
 
   @media only screen and (max-width: 500px) {
-    padding:20px;
+    padding: 20px;
     width: 100%;
   }
 

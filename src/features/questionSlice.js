@@ -33,12 +33,12 @@ const questionSlice = createSlice({
       state.randomCountries = randomCountries;
 
       // set Correct answer and all answers
-      state.correct = state.randomCountries[0].name;
+      state.correct = state.randomCountries[0].name.common;
 
       const setAnswersObjects = Object.values(state.randomCountries).map(
         (country, i) => {
           return {
-            countryName: country.name,
+            countryName: country.name.common,
             isCorrect: i === 0 ? true : false,
           };
         }

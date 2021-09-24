@@ -5,10 +5,12 @@ import { question } from "../helpFunc/helpFunc";
 import Image from "../components/Image";
 import {
   getRandomCountries,
+  resetAnswerCounter,
   setAnswerCounter,
 } from "../features/questionSlice";
 import { useHistory } from "react-router-dom";
 import Button from "../components/Button";
+import { useEffect } from "react";
 
 const Question = () => {
   const history = useHistory();
@@ -16,6 +18,11 @@ const Question = () => {
   const countries = useSelector((state) => state.question.randomCountries);
   const correctAnswer = useSelector((state) => state.question.correct);
   const allAnswers = useSelector((state) => state.question.answers);
+
+  useEffect(() => {
+    // reset Counter
+    dispatch(resetAnswerCounter());
+  }, [dispatch]);
 
   const [questionType, setQuestionType] = useState("flag"); // flag || capital
 
@@ -65,6 +72,17 @@ const Question = () => {
     setQuestionType((state) => (state === "flag" ? "capital" : "flag"));
   };
 
+  const buttonProps = (id, answerId, setAnswerId) => {
+    return {
+      id,
+      allAnswers,
+      answerId,
+      setAnswerId,
+      answered,
+      handleClick,
+    };
+  };
+
   return (
     <Container>
       <h1>COUNTRY QUIZ</h1>
@@ -73,38 +91,10 @@ const Question = () => {
 
         <Ask>{question(questionType, countries)}</Ask>
 
-        <Button
-          id={0}
-          allAnswers={allAnswers}
-          answerId={answerA}
-          setAnswerId={setAnswerA}
-          answered={answered}
-          handleClick={handleClick}
-        />
-        <Button
-          id={1}
-          allAnswers={allAnswers}
-          answerId={answerB}
-          setAnswerId={setAnswerB}
-          answered={answered}
-          handleClick={handleClick}
-        />
-        <Button
-          id={2}
-          allAnswers={allAnswers}
-          answerId={answerC}
-          setAnswerId={setAnswerC}
-          answered={answered}
-          handleClick={handleClick}
-        />
-        <Button
-          id={3}
-          allAnswers={allAnswers}
-          answerId={answerD}
-          setAnswerId={setAnswerD}
-          answered={answered}
-          handleClick={handleClick}
-        />
+        <Button {...buttonProps(0, answerA, setAnswerA)} />
+        <Button {...buttonProps(1, answerB, setAnswerB)} />
+        <Button {...buttonProps(2, answerC, setAnswerC)} />
+        <Button {...buttonProps(3, answerD, setAnswerD)} />
 
         <NextButton
           onClick={handleNextClick}
@@ -128,11 +118,9 @@ const Container = styled.div`
   }
 
   @media only screen and (max-width: 500px) {
-    padding:10px;
+    padding: 10px;
   }
 `;
-
-
 
 const Card = styled.div`
   position: relative;
@@ -143,7 +131,6 @@ const Card = styled.div`
   flex-direction: column;
   width: 464px;
 
-  
   img {
     height: 162px;
     width: 162px;
