@@ -18,7 +18,7 @@ export const showIcon = (answerId, answered, isCorrect) => {
 export const question = (questionType, countries) => {
   if (questionType === "capital") {
     if (countries) {
-      return <h3>{countries[0].capital} is the capital of</h3>;
+      return <h3>{countries[0].capital[0]} is the capital of</h3>;
     } else {
       return <CircularProgress />;
     }
@@ -28,7 +28,7 @@ export const question = (questionType, countries) => {
     if (countries) {
       return (
         <>
-          <img src={countries[0].flag} alt="" />
+          <img src={countries[0].flags[0]} alt="" />
           <h3>Which country does this flag belong to?</h3>
         </>
       );
