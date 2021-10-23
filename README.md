@@ -8,11 +8,11 @@
 
 <div align="center">
   <h3>
-    <a href="https://serene-joliot-b7fb2d.netlify.app/">
+    <a href="https://country-quiz-b7fb2d.netlify.app/">
       Demo
     </a>
     <span> | </span>
-    <a href="https://serene-joliot-b7fb2d.netlify.app/">
+    <a href="https://country-quiz-b7fb2d.netlify.app/">
       Solution
     </a>
     <span> | </span>
